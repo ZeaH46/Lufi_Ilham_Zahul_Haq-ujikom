@@ -10,7 +10,7 @@ public class Cow : MonoBehaviour
     private float speed = 25f;
     private float hunger = 200f;
     private float score = 1f;
-    private bool isSpawn, isSpawned;
+    private bool isSpawn, isSpawned = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,22 +22,38 @@ public class Cow : MonoBehaviour
     void Update()
     {
         if (player != null)
-            StartCoroutine(spawnCow());
+        {
+            if (!isSpawned)
+            {
+                StartCoroutine(spawnCow());
+                isSpawned = true;
+            }
+            else
+            {
+                Debug.Log("CD");
+            }
+        }
     }
 
     private IEnumerator spawnCow()
     {
-        yield return new WaitForSeconds(3f);
         if (isSpawned == false)
         {
             Quaternion forward = Quaternion.LookRotation(transform.forward);
             GameObject spawner = Instantiate (spawn, transform.position, forward);
             spawner.GetComponent<Rigidbody>().velocity = transform.forward * speed;
-            isSpawned = true;
         }
         yield return new WaitForSeconds(3f);
         isSpawned = false;
         
+    }
+
+    public void TakeDamage(float damage)
+    {
+        if (hunger > 0)
+            hunger -= damage;
+        else if (hunger == 0)
+            Die ();
     }
 
     private void Die()

@@ -22,25 +22,38 @@ public class Deer : MonoBehaviour
     void Update()
     {
         if (player != null)
-            StartCoroutine(spawnDeer());
+        {
+            if (!isSpawned)
+                {
+                    StartCoroutine(spawnDeer());
+                    isSpawned = true;
+                }
+                else
+                {
+                    Debug.Log("CD");
+                }
+        }
     }
 
     private IEnumerator spawnDeer()
     {
-        isSpawn = true;
-
-        if (isSpawn && !isSpawned)
+        if (isSpawned == false)
         {
             Quaternion forward = Quaternion.LookRotation(transform.forward);
             GameObject spawner = Instantiate (spawn, transform.position, forward);
             spawner.GetComponent<Rigidbody>().velocity = transform.forward * speed;
-            isSpawned = true;
         }
         yield return new WaitForSeconds(3f);
         isSpawned = false;
-        isSpawn = false;
     }
 
+    public void TakeDamage(float damage)
+    {
+        if (hunger > 0)
+            hunger -= damage;
+        else if (hunger == 0)
+            Die ();
+    }
     private void Die()
     {
         if (hunger == 0)
