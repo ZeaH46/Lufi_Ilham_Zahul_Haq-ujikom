@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
 
-public class Cow : MonoBehaviour
+public class Dog : MonoBehaviour
 {
     [SerializeField] private GameObject spawn;
     private Transform player;
@@ -22,10 +22,10 @@ public class Cow : MonoBehaviour
     void Update()
     {
         if (player != null)
-            StartCoroutine(spawnCow());
+            StartCoroutine(spawnDog());
     }
 
-    private IEnumerator spawnCow()
+    private IEnumerator spawnDog()
     {
         isSpawn = true;
 
@@ -36,14 +36,16 @@ public class Cow : MonoBehaviour
             spawner.GetComponent<Rigidbody>().velocity = transform.forward * speed;
             isSpawned = true;
         }
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
         isSpawned = false;
         isSpawn = false;
     }
 
-    private IEnumerator Interval()
+    private void Die()
     {
-        yield return new WaitForSeconds (1f);
-        isSpawned = false;
+        if (hunger == 0)
+        {
+            Destroy(gameObject);
+        }
     }
 }

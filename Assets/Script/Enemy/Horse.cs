@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
 
-public class Deer : MonoBehaviour
+public class Horse : MonoBehaviour
 {
     [SerializeField] private GameObject spawn;
     private Transform player;
@@ -15,17 +15,17 @@ public class Deer : MonoBehaviour
     void Start()
     {
         player = GameObject.FindWithTag("Player").transform;
-        StartCoroutine(spawnDeer());
+        // StartCoroutine(spawnDeer());
     }
 
     // Update is called once per frame
     void Update()
     {
         if (player != null)
-            StartCoroutine(spawnDeer());
+            StartCoroutine(spawnHorse());
     }
 
-    private IEnumerator spawnDeer()
+    private IEnumerator spawnHorse()
     {
         isSpawn = true;
 
@@ -36,14 +36,16 @@ public class Deer : MonoBehaviour
             spawner.GetComponent<Rigidbody>().velocity = transform.forward * speed;
             isSpawned = true;
         }
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
         isSpawned = false;
         isSpawn = false;
     }
 
-    private IEnumerator Interval()
+    private void Die()
     {
-        yield return new WaitForSeconds (1f);
-        isSpawned = false;
+        if (hunger == 0)
+        {
+            Destroy(gameObject);
+        }
     }
 }

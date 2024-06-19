@@ -44,9 +44,7 @@ public class Boy : MonoBehaviour
 
          if (Input.GetKeyDown("escape"))
         {
-            // Time.timeScale = 0;
-            // pause.SetActive = true;
-            
+            Pause();
         }
     }
 
@@ -56,5 +54,11 @@ public class Boy : MonoBehaviour
         GameObject attack = Instantiate (attackObject, spawnAttack.position, forward);
         attack.GetComponent<Rigidbody>().velocity = transform.forward * 300f;
         Destroy(attack, 3f);
+    }
+
+    private void Pause()
+    {
+        // Time.timeScale = 0;
+        // pause.SetActive = true;
     }
 }
